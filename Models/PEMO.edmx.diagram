@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="53f0754aa40a4aaebb404f333a9414eb" Name="Diagram1">
+      <Diagram DiagramId="53f0754aa40a4aaebb404f333a9414eb" Name="Diagram1" ZoomLevel="56">
         <EntityTypeShape EntityType="PEMOModel.Association" Width="1.5" PointX="7.75" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="PEMOModel.Barangay" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PEMOModel.Category" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />

@@ -25,6 +25,8 @@ namespace PEMO_DATA_BANKING.Models
         {
         }
 
+        public object Miners { get; internal set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

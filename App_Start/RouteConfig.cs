@@ -18,6 +18,12 @@ namespace PEMO_DATA_BANKING
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Miners",
+                url: "Miners/{action}/{id}",
+                defaults: new { controller = "Miners", action = "Index", id = UrlParameter.Optional }
+            );
         }
     }
 }
