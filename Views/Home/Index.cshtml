@@ -3,31 +3,47 @@
 }
 
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+    <style>
+        .intro-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            flex-direction: column;
+            text-align: center;
+        }
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+        .logo-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-small {
+            width: 100px; /* Adjust the size as needed */
+            margin-bottom: 10px; /* Adjust the overlap as needed */
+            z-index: 1;
+        }
+
+        .logo-large {
+            width: 300px; /* Adjust the size as needed */
+            margin-top: 0px; /* Adjust the overlap as needed */
+        }
+
+        .department-name {
+            font-size: 40px;
+            font-weight: bold;
+            margin-top: 15px; /* Adjust as needed to create space between the logos and text */
+            color:darkslategray;
+        }
+    </style>
+    <div class="intro-container">
+        <div class="logo-container">
+            <img src="~/Content/dist/img/Ph_seal_south_cotabato.png" class="logo-small" />
+            <img src="~/Content/dist/img/PEMOicon.png" class="logo-large" />
+        </div>
+        <div class="department-name">Provincial Environmental Management Office</div>
     </div>
+
 </main>
