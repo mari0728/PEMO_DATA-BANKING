@@ -184,6 +184,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MinersController.cs" />
+    <Compile Include="Controllers\OperatorsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2393,6 +2394,11 @@
     <Content Include="Views\Miners\Delete.cshtml" />
     <Content Include="Views\Miners\Details.cshtml" />
     <Content Include="Views\Miners\Edit.cshtml" />
+    <Content Include="Views\Operators\Create.cshtml" />
+    <Content Include="Views\Operators\Delete.cshtml" />
+    <Content Include="Views\Operators\Details.cshtml" />
+    <Content Include="Views\Operators\Edit.cshtml" />
+    <Content Include="Views\Operators\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
