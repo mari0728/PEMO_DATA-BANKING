@@ -13,10 +13,10 @@ namespace PEMO_DATA_BANKING.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PEMOEntities : DbContext
+    public partial class PEMOEntities1 : DbContext
     {
-        public PEMOEntities()
-            : base("name=PEMOEntities")
+        public PEMOEntities1()
+            : base("name=PEMOEntities1")
         {
         }
     
@@ -34,5 +34,6 @@ namespace PEMO_DATA_BANKING.Models
         public virtual DbSet<Permit> Permits { get; set; }
         public virtual DbSet<Permit_Type> Permit_Type { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }
