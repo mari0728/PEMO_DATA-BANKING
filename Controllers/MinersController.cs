@@ -12,7 +12,7 @@ namespace PEMO_DATA_BANKING.Controllers
 {
     public class MinersController : Controller
     {
-        private PEMOEntities db = new PEMOEntities();
+        private PEMOEntities1 db = new PEMOEntities1();
 
         // GET: Miners
         public ActionResult Index()
