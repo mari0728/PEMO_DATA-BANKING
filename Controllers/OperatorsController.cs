@@ -17,6 +17,7 @@ namespace PEMO_DATA_BANKING.Controllers
         // GET: Operators
         public ActionResult Index()
         {
+            ViewBag.Profile = "Operator";
             return View(db.Operators.ToList());
         }
 

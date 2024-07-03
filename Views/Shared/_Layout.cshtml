@@ -1,8 +1,4 @@
 ﻿<!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -10,15 +6,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>AdminLTE 3 | Top Navigation + Sidebar</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
     <link href="~/Content/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
-    <!-- Theme style -->
     <link href="~/Content/dist/css/adminlte.min.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-    <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -31,7 +22,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="~/home/index" class="nav-link">Home</a>
                 </li>
             </ul>
-
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
@@ -42,165 +32,89 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </li>
             </ul>
         </nav>
-        <!-- /.navbar -->
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <div class="text-center">
                 <a href="~/home/index" class="brand-link d-flex align-items-center justify-content-center">
-                    <img src="~/Content/dist/img/PEMOicon.png" width="50" />
+                    <img src="~/Content/dist/img/PEMOicon.png" width="50" class="nav-icon" />
                     <p style="margin: 0 0 0 10px; font-weight: bold; font-size:30px">PEMO</p>
                 </a>
             </div>
             <!-- Sidebar -->
             <div class="sidebar">
-
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" style="font-size:20px;" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
-
                         <li class="nav-header" style="font-size:17px;">PROFILES</li>
-                        <li class="nav-item">
-                            <a href="../miners" class="nav-link">
-
-                                <i class="nav-icon bi-minecart-loaded"></i>
-                                <p>
-                                    Miners
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../operators" class="nav-link">
-
-                                <i class="nav-icon bi bi-truck"></i>
-                                <p>
-                                    Operators
-                                </p>
-                            </a>
-                        </li>
-
-
-
-                        @*<li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>
-                                        Dashboard
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item menu-open">
-                                <a href="#" class="nav-link active">
-                                    <i class="nav-icon fas fa-copy"></i>
-                                    <p>
-                                        Layout Options
-                                        <i class="fas fa-angle-left right"></i>
-                                        <span class="badge badge-info right">6</span>
-                                    </p>
+                        @if (ViewBag.Profile == "Home")
+                        {
+                            <li class="nav-item">
+                                <a href="/miners" class="nav-link">
+                                    <i class="nav-icon bi-minecart-loaded"></i>
+                                    <p>Miners</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-chart-pie"></i>
-                                    <p>
-                                        Charts
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="../charts/chartjs.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>ChartJS</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="../charts/flot.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Flot</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="../charts/inline.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Inline</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="../charts/uplot.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>uPlot</p>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                <a href="/operators" class="nav-link">
+                                    <i class="nav-icon bi bi-truck"></i>
+                                    <p>Operators</p>
                                 </a>
                             </li>
+                        }
 
-                            <li class="nav-header">EXAMPLES</li>
+                        @if (ViewBag.Profile == "Miner")
+                        {
                             <li class="nav-item">
-                                <a href="../calendar.html" class="nav-link">
-                                    <i class="nav-icon far fa-calendar-alt"></i>
-                                    <p>
-                                        Calendar
-                                        <span class="badge badge-info right">2</span>
-                                    </p>
+                                <a href="/miners" class="nav-link active">
+                                    <i class="nav-icon bi-minecart-loaded"></i>
+                                    <p>Miners</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../gallery.html" class="nav-link">
-                                    <i class="nav-icon far fa-image"></i>
-                                    <p>
-                                        Gallery
-                                    </p>
+                                <a href="/operators" class="nav-link">
+                                    <i class="nav-icon bi bi-truck"></i>
+                                    <p>Operators</p>
+                                </a>
+                            </li>
+                        }
+                        @if (ViewBag.Profile == "Operator")
+                        {
+                            <li class="nav-item">
+                                <a href="/miners" class="nav-link">
+                                    <i class="nav-icon bi-minecart-loaded"></i>
+                                    <p>Miners</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../kanban.html" class="nav-link">
-                                    <i class="nav-icon fas fa-columns"></i>
-                                    <p>
-                                        Kanban Board
-                                    </p>
+                                <a href="/operators" class="nav-link active">
+                                    <i class="nav-icon bi bi-truck"></i>
+                                    <p>Operators</p>
                                 </a>
-                            </li>*@
-
+                            </li>
+                        }
 
                     </ul>
                 </nav>
-                <!-- /.sidebar-menu -->
             </div>
-            <!-- /.sidebar -->
         </aside>
-
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-
             <!-- Main content -->
             <div class="content">
                 <div class="container">
-                    <!-- This is where the content of the child view will be rendered -->
                     @RenderBody()
-                </div><!-- /.container-fluid -->
+                </div>
             </div>
-            <!-- /.content -->
-
-
         </div>
-        <!-- /.content-wrapper -->
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
         </aside>
-        <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
-    <!-- jQuery -->
     <script src="~/Content/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
     <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/dist/js/adminlte.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -10,6 +10,7 @@ namespace PEMO_DATA_BANKING.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Profile = "Home";
             return View();
         }
 
