@@ -9,14 +9,14 @@
 
 
 <p>
-    <button type="button" class="btn btn-block btn-primary" onclick="location.href='@Url.Action("Create")'">Create New</button>
+    <button type="button" class="btn btn-primary" onclick="showModal('@Url.Action("Create")')">Create New</button>
 </p>
 
 
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <!-- /.card-header -->
+
             <div class="card-body table-responsive p-0" style="height: 550px;">
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
@@ -41,17 +41,50 @@
                                 <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Association.Association_name)</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Miner_id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Miner_id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Miner_id })
+                                    <button type="button" class="btn btn-info" onclick="showModal('@Url.Action("Edit", new { id = item.Miner_id })')">Edit</button>
+                                    <button type="button" class="btn btn-danger" onclick="showModal('@Url.Action("Delete", new { id = item.Miner_id })')">Delete</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                <div class="modal fade" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" id="modalContent">
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-    </div>
+
 </div>
+ /.card 
+</div>
+</div>
+
+
+
+<script>
+    function showModal(url) {
+        $.get(url, function (data) {
+            $('#modalContent').html(data);
+            $('#modalDialog').modal('show');
+        });
+    }
+
+    $(function () {
+        $('#createForm, #editForm, #deleteForm').submit(function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            $.post($form.attr('action'), $form.serialize())
+                .done(function (result) {
+                    $('#modalDialog').modal('hide');
+                    location.reload(); // Reload the page to see the changes
+                })
+                .fail(function () {
+                    alert('Error while processing form');
+                });
+        });
+    });
+</script>

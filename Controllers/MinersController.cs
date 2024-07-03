@@ -18,38 +18,126 @@ namespace PEMO_DATA_BANKING.Controllers
         public ActionResult Index()
         {
             var miners = db.Miners.Include(m => m.Association);
-            ViewBag.Profile = "Miner";
             return View(miners.ToList());
         }
 
-        // GET: Miners/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Miner miner = db.Miners.Find(id);
-            if (miner == null)
-            {
-                return HttpNotFound();
-            }
-            return View(miner);
-        }
+        //// GET: Miners/Details/5
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Miner miner = db.Miners.Find(id);
+        //    if (miner == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(miner);
+        //}
 
-        // GET: Miners/Create
+        //// GET: Miners/Create
+        //public ActionResult Create()
+        //{
+        //    ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name");
+        //    return View();
+        //}
+
+        //// POST: Miners/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Miner_id,Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Miners.Add(miner);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
+        //    return View(miner);
+        //}
+
+        //// GET: Miners/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Miner miner = db.Miners.Find(id);
+        //    if (miner == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
+        //    return View(miner);
+        //}
+
+        //// POST: Miners/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "Miner_id,Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(miner).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
+        //    return View(miner);
+        //}
+
+        //// GET: Miners/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Miner miner = db.Miners.Find(id);
+        //    if (miner == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(miner);
+        //}
+
+        //// POST: Miners/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Miner miner = db.Miners.Find(id);
+        //    db.Miners.Remove(miner);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
+
         public ActionResult Create()
         {
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name");
-            return View();
+            return PartialView("Create");
         }
 
-        // POST: Miners/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Miner_id,Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
+        public ActionResult Create([Bind(Include = "Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
         {
             if (ModelState.IsValid)
             {
@@ -59,10 +147,9 @@ namespace PEMO_DATA_BANKING.Controllers
             }
 
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
-            return View(miner);
+            return PartialView("Create", miner);
         }
 
-        // GET: Miners/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -75,12 +162,9 @@ namespace PEMO_DATA_BANKING.Controllers
                 return HttpNotFound();
             }
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
-            return View(miner);
+            return PartialView("_Edit", miner);
         }
 
-        // POST: Miners/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Miner_id,Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
@@ -92,10 +176,9 @@ namespace PEMO_DATA_BANKING.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
-            return View(miner);
+            return PartialView("_Edit", miner);
         }
 
-        // GET: Miners/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,10 +190,9 @@ namespace PEMO_DATA_BANKING.Controllers
             {
                 return HttpNotFound();
             }
-            return View(miner);
+            return PartialView("_Delete", miner);
         }
 
-        // POST: Miners/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -119,15 +201,6 @@ namespace PEMO_DATA_BANKING.Controllers
             db.Miners.Remove(miner);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

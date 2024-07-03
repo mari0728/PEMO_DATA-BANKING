@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PEMOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PEMOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Association">
           <Key>
             <PropertyRef Name="Association_id" />
@@ -31,7 +31,7 @@
           <Key>
             <PropertyRef Name="Miner_id" />
           </Key>
-          <Property Name="Miner_id" Type="int" Nullable="false" />
+          <Property Name="Miner_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Association_id" Type="int" />
           <Property Name="FirstName" Type="varchar" MaxLength="255" />
           <Property Name="MiddleName" Type="varchar" MaxLength="255" />
@@ -106,7 +106,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Miner__Associati__3B75D760">
+        <Association Name="FK__Miner__Associati__49C3F6B7">
           <End Role="Association" Type="Self.Association" Multiplicity="0..1" />
           <End Role="Miner" Type="Self.Miner" Multiplicity="*" />
           <ReferentialConstraint>
@@ -248,7 +248,7 @@
             <End Role="Municipality" EntitySet="Municipality" />
             <End Role="Barangay" EntitySet="Barangay" />
           </AssociationSet>
-          <AssociationSet Name="FK__Miner__Associati__3B75D760" Association="Self.FK__Miner__Associati__3B75D760">
+          <AssociationSet Name="FK__Miner__Associati__49C3F6B7" Association="Self.FK__Miner__Associati__49C3F6B7">
             <End Role="Association" EntitySet="Association" />
             <End Role="Miner" EntitySet="Miner" />
           </AssociationSet>
@@ -281,8 +281,7 @@
             <End Role="Permit" EntitySet="Permit" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PEMOModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -292,7 +291,7 @@
           </Key>
           <Property Name="Association_id" Type="Int32" Nullable="false" />
           <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Miners" Relationship="Self.FK__Miner__Associati__3B75D760" FromRole="Association" ToRole="Miner" />
+          <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__49C3F6B7" FromRole="Association" ToRole="Miner" />
         </EntityType>
         <EntityType Name="Barangay">
           <Key>
@@ -311,19 +310,6 @@
           <Property Name="Category_id" Type="Int32" Nullable="false" />
           <Property Name="Category_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Permits" Relationship="Self.FK__Permit__Category__33D4B598" FromRole="Category" ToRole="Permit" />
-        </EntityType>
-        <EntityType Name="Miner">
-          <Key>
-            <PropertyRef Name="Miner_id" />
-          </Key>
-          <Property Name="Miner_id" Type="Int32" Nullable="false" />
-          <Property Name="Association_id" Type="Int32" />
-          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Longitude" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Latitude" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Association" Relationship="Self.FK__Miner__Associati__3B75D760" FromRole="Miner" ToRole="Association" />
         </EntityType>
         <EntityType Name="Municipality">
           <Key>
@@ -393,18 +379,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK__Miner__Associati__3B75D760">
-          <End Role="Association" Type="Self.Association" Multiplicity="0..1" />
-          <End Role="Miner" Type="Self.Miner" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Association">
-              <PropertyRef Name="Association_id" />
-            </Principal>
-            <Dependent Role="Miner">
-              <PropertyRef Name="Association_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Barangay__Munici__2F10007B">
           <End Role="Municipality" Type="Self.Municipality" Multiplicity="0..1" />
           <End Role="Barangay" Type="Self.Barangay" Multiplicity="*" />
@@ -505,17 +479,12 @@
           <EntitySet Name="Associations" EntityType="Self.Association" />
           <EntitySet Name="Barangays" EntityType="Self.Barangay" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Miners" EntityType="Self.Miner" />
           <EntitySet Name="Municipalities" EntityType="Self.Municipality" />
           <EntitySet Name="Operators" EntityType="Self.Operator" />
           <EntitySet Name="Permits" EntityType="Self.Permit" />
           <EntitySet Name="Permit_Type" EntityType="Self.Permit_Type" />
           <EntitySet Name="Provinces" EntityType="Self.Province" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <AssociationSet Name="FK__Miner__Associati__3B75D760" Association="Self.FK__Miner__Associati__3B75D760">
-            <End Role="Association" EntitySet="Associations" />
-            <End Role="Miner" EntitySet="Miners" />
-          </AssociationSet>
           <AssociationSet Name="FK__Barangay__Munici__2F10007B" Association="Self.FK__Barangay__Munici__2F10007B">
             <End Role="Municipality" EntitySet="Municipalities" />
             <End Role="Barangay" EntitySet="Barangays" />
@@ -578,6 +547,11 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Miners" EntityType="PEMOModel.Miner" />
+          <AssociationSet Name="FK__Miner__Associati__49C3F6B7" Association="PEMOModel.FK__Miner__Associati__49C3F6B7">
+            <End Role="Association" EntitySet="Associations" />
+            <End Role="Miner" EntitySet="Miners" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -590,6 +564,31 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Miner">
+          <Key>
+            <PropertyRef Name="Miner_id" />
+          </Key>
+          <Property Name="Miner_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Association_id" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Longitude" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Latitude" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Association" Relationship="PEMOModel.FK__Miner__Associati__49C3F6B7" FromRole="Miner" ToRole="Association" />
+        </EntityType>
+        <Association Name="FK__Miner__Associati__49C3F6B7">
+          <End Type="PEMOModel.Association" Role="Association" Multiplicity="0..1" />
+          <End Type="PEMOModel.Miner" Role="Miner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Association">
+              <PropertyRef Name="Association_id" />
+            </Principal>
+            <Dependent Role="Miner">
+              <PropertyRef Name="Association_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -618,19 +617,6 @@
               <MappingFragment StoreEntitySet="Category">
                 <ScalarProperty Name="Category_id" ColumnName="Category_id" />
                 <ScalarProperty Name="Category_name" ColumnName="Category_name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Miners">
-            <EntityTypeMapping TypeName="PEMOModel.Miner">
-              <MappingFragment StoreEntitySet="Miner">
-                <ScalarProperty Name="Miner_id" ColumnName="Miner_id" />
-                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -719,6 +705,19 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="PEMOModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="PEMOModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Miners">
+            <EntityTypeMapping TypeName="PEMOModel.Miner">
+              <MappingFragment StoreEntitySet="Miner">
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
+                <ScalarProperty Name="Miner_id" ColumnName="Miner_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
