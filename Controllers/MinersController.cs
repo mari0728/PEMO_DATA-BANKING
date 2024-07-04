@@ -18,6 +18,7 @@ namespace PEMO_DATA_BANKING.Controllers
         public ActionResult Index()
         {
             var miners = db.Miners.Include(m => m.Association);
+            ViewBag.Profile = "Miner";
             return View(miners.ToList());
         }
 
