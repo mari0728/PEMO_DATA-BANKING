@@ -285,14 +285,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PEMOModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Association">
-          <Key>
-            <PropertyRef Name="Association_id" />
-          </Key>
-          <Property Name="Association_id" Type="Int32" Nullable="false" />
-          <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__49C3F6B7" FromRole="Association" ToRole="Miner" />
-        </EntityType>
         <EntityType Name="Barangay">
           <Key>
             <PropertyRef Name="Barangay_id" />
@@ -476,7 +468,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="PEMOEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Associations" EntityType="Self.Association" />
           <EntitySet Name="Barangays" EntityType="Self.Barangay" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Municipalities" EntityType="Self.Municipality" />
@@ -548,6 +539,7 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="Miners" EntityType="PEMOModel.Miner" />
+          <EntitySet Name="Associations" EntityType="PEMOModel.Association" />
           <AssociationSet Name="FK__Miner__Associati__49C3F6B7" Association="PEMOModel.FK__Miner__Associati__49C3F6B7">
             <End Role="Association" EntitySet="Associations" />
             <End Role="Miner" EntitySet="Miners" />
@@ -577,6 +569,14 @@
           <Property Name="Latitude" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Association" Relationship="PEMOModel.FK__Miner__Associati__49C3F6B7" FromRole="Miner" ToRole="Association" />
         </EntityType>
+        <EntityType Name="Association">
+          <Key>
+            <PropertyRef Name="Association_id" />
+          </Key>
+          <Property Name="Association_id" Type="Int32" Nullable="false" />
+          <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__49C3F6B7" FromRole="Association" ToRole="Miner" />
+        </EntityType>
         <Association Name="FK__Miner__Associati__49C3F6B7">
           <End Type="PEMOModel.Association" Role="Association" Multiplicity="0..1" />
           <End Type="PEMOModel.Miner" Role="Miner" Multiplicity="*" />
@@ -595,14 +595,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PEMOModelStoreContainer" CdmEntityContainer="PEMOEntities">
-          <EntitySetMapping Name="Associations">
-            <EntityTypeMapping TypeName="PEMOModel.Association">
-              <MappingFragment StoreEntitySet="Association">
-                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
-                <ScalarProperty Name="Association_name" ColumnName="Association_name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Barangays">
             <EntityTypeMapping TypeName="PEMOModel.Barangay">
               <MappingFragment StoreEntitySet="Barangay">
@@ -715,6 +707,14 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Association_id" ColumnName="Association_id" />
                 <ScalarProperty Name="Miner_id" ColumnName="Miner_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Associations">
+            <EntityTypeMapping TypeName="PEMOModel.Association">
+              <MappingFragment StoreEntitySet="Association">
+                <ScalarProperty Name="Association_name" ColumnName="Association_name" />
+                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

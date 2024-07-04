@@ -6,17 +6,13 @@
 
 <h2>Miners</h2>
 
-
-
 <p>
     <button type="button" class="btn btn-primary" onclick="showModal('@Url.Action("Create")')">Create New</button>
 </p>
 
-
 <div class="row">
     <div class="col-12">
         <div class="card">
-
             <div class="card-body table-responsive p-0" style="height: 550px;">
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
@@ -48,23 +44,25 @@
                         }
                     </tbody>
                 </table>
+
+                <!-- Modal Structure -->
                 <div class="modal fade" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content" id="modalContent">
+                            <!-- Content loaded via AJAX -->
                         </div>
                     </div>
                 </div>
-
+                <!-- /.modal -->
 
             </div>
-
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
 </div>
- /.card 
-</div>
-</div>
 
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function showModal(url) {
         $.get(url, function (data) {
@@ -73,18 +71,20 @@
         });
     }
 
-    $(function () {
-        $('#createForm, #editForm, #deleteForm').submit(function (e) {
-            e.preventDefault();
-            var $form = $(this);
-            $.post($form.attr('action'), $form.serialize())
-                .done(function (result) {
+    $(document).on('submit', '#createForm, #editForm, #deleteForm', function (e) {
+        e.preventDefault();
+        var $form = $(this);
+        $.post($form.attr('action'), $form.serialize())
+            .done(function (result) {
+                if (result.success) {
                     $('#modalDialog').modal('hide');
                     location.reload(); // Reload the page to see the changes
-                })
-                .fail(function () {
-                    alert('Error while processing form');
-                });
-        });
+                } else {
+                    $('#modalContent').html(result); // Reload modal content with validation errors
+                }
+            })
+            .fail(function () {
+                alert('Error while processing form');
+            });
     });
 </script>

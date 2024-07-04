@@ -2390,15 +2390,15 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Miners\Index.cshtml" />
-    <Content Include="Views\Miners\Delete.cshtml" />
     <Content Include="Views\Miners\Details.cshtml" />
-    <Content Include="Views\Miners\Edit.cshtml" />
     <Content Include="Views\Operators\Create.cshtml" />
     <Content Include="Views\Operators\Delete.cshtml" />
     <Content Include="Views\Operators\Details.cshtml" />
     <Content Include="Views\Operators\Edit.cshtml" />
     <Content Include="Views\Operators\Index.cshtml" />
     <Content Include="Views\Miners\Create.cshtml" />
+    <Content Include="Views\Miners\Edit.cshtml" />
+    <Content Include="Views\Miners\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
