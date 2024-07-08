@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -34,55 +33,30 @@ namespace PEMO_DATA_BANKING.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
         {
-            // Manually validate required fields
-            if (string.IsNullOrWhiteSpace(miner.FirstName))
-            {
-                ModelState.AddModelError("FirstName", "First Name is required.");
-            }
-
-            if (string.IsNullOrWhiteSpace(miner.LastName))
-            {
-                ModelState.AddModelError("LastName", "Last Name is required.");
-            }
-
-            if (miner.Association_id == 0)
-            {
-                ModelState.AddModelError("Association_id", "Association is required.");
-            }
-
-            // Check if Longitude and Latitude are zero or default
-            if (miner.Longitude == "")
-            {
-                ModelState.AddModelError("Longitude", "Longitude is required.");
-            }
-
-            if (miner.Latitude == "")
-            {
-                ModelState.AddModelError("Latitude", "Latitude is required.");
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    db.Miners.Add(miner);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
-                    {
-                        foreach (var validationError in entityValidationErrors.ValidationErrors)
-                        {
-                            ModelState.AddModelError(validationError.PropertyName, validationError.ErrorMessage);
-                        }
-                    }
-                }
+                db.Miners.Add(miner);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
 
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
             return PartialView("Create", miner);
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Miner miner = db.Miners.Find(id);
+            if (miner == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
+            return PartialView("Edit", miner);
         }
 
         [HttpPost]
