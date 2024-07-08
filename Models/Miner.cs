@@ -21,6 +21,9 @@ namespace PEMO_DATA_BANKING.Models
         public string LastName { get; set; }
         public string Longitude { get; set; }
         public string Latitude { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public Nullable<System.DateTime> DateDeleted { get; set; }
+        public string Status { get; set; }
     
         public virtual Association Association { get; set; }
     }

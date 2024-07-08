@@ -26,6 +26,8 @@ namespace PEMO_DATA_BANKING.Models
         public string LastName { get; set; }
         public Nullable<byte> isCompany { get; set; }
         public string Company_Name { get; set; }
+        public byte[] created_time { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Permit> Permits { get; set; }

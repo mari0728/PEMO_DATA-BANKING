@@ -31,7 +31,7 @@ namespace PEMO_DATA_BANKING.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
+        public ActionResult Create([Bind(Include = "Association_id,FirstName,MiddleName,LastName,Longitude,Latitude,DateCreated,DateDeleted,Status")] Miner miner)
         {
             if (ModelState.IsValid)
             {
@@ -92,9 +92,17 @@ namespace PEMO_DATA_BANKING.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Miner miner = db.Miners.Find(id);
-            db.Miners.Remove(miner);
+            if (miner == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Update status to indicate deleted
+            miner.Status = "Deleted";
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
     }
 }
