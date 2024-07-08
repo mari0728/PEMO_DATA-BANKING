@@ -15,7 +15,7 @@ namespace PEMO_DATA_BANKING.Models
     public partial class Miner
     {
         public int Miner_id { get; set; }
-        public Nullable<int> Association_id { get; set; }
+        public int Association_id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

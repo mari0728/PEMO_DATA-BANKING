@@ -21,9 +21,9 @@
         <AssociationConnector Association="PEMOModel.FK__Permit__Person_i__32E0915F" ManuallyRouted="false" />
         <AssociationConnector Association="PEMOModel.FK__Permit__Permit_t__31EC6D26" ManuallyRouted="false" />
         <AssociationConnector Association="PEMOModel.FK__Permit__Province__34C8D9D1" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PEMOModel.Miner" Width="1.5" PointX="10" PointY="5.875" />
         <EntityTypeShape EntityType="PEMOModel.Association" Width="1.5" PointX="7.75" PointY="6.375" />
-        <AssociationConnector Association="PEMOModel.FK__Miner__Associati__49C3F6B7" />
+        <EntityTypeShape EntityType="PEMOModel.Miner" Width="1.5" PointX="10" PointY="5.875" />
+        <AssociationConnector Association="PEMOModel.FK__Miner__Associati__4CA06362" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
