@@ -117,3 +117,18 @@
             });
     });
 </script>
+
+<style>
+    .sticky-col {
+        position: -webkit-sticky; /* for Safari */
+        position: sticky;
+        right: -2px;
+        background-color: #fff;
+        z-index: 1; /* Ensure it is above other rows */
+    }
+
+    /* Ensuring the action column stays on top of other cells when scrolled */
+    tbody .sticky-col {
+        z-index: 2;
+    }
+</style>
