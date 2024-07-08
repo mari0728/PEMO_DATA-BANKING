@@ -38,6 +38,9 @@
           <Property Name="LastName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Longitude" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Latitude" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateCreated" Type="date" Nullable="false" />
+          <Property Name="DateDeleted" Type="date" />
+          <Property Name="Status" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Municipality">
           <Key>
@@ -57,6 +60,8 @@
           <Property Name="LastName" Type="varchar" MaxLength="255" />
           <Property Name="isCompany" Type="tinyint" />
           <Property Name="Company_Name" Type="varchar" MaxLength="255" />
+          <Property Name="created_time" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="Status" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Permit">
           <Key>
@@ -325,6 +330,8 @@
           <Property Name="isCompany" Type="Byte" />
           <Property Name="Company_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Permits" Relationship="Self.FK__Permit__Person_i__32E0915F" FromRole="Operator" ToRole="Permit" />
+          <Property Name="created_time" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Permit">
           <Key>
@@ -575,6 +582,9 @@
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Longitude" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Latitude" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Association" Relationship="PEMOModel.FK__Miner__Associati__4CA06362" FromRole="Miner" ToRole="Association" />
         </EntityType>
         <Association Name="FK__Miner__Associati__4CA06362">
@@ -624,6 +634,8 @@
           <EntitySetMapping Name="Operators">
             <EntityTypeMapping TypeName="PEMOModel.Operator">
               <MappingFragment StoreEntitySet="Operator">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="created_time" ColumnName="created_time" />
                 <ScalarProperty Name="Person_id" ColumnName="Person_id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
@@ -708,6 +720,9 @@
           <EntitySetMapping Name="Miners">
             <EntityTypeMapping TypeName="PEMOModel.Miner">
               <MappingFragment StoreEntitySet="Miner">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
