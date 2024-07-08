@@ -23,7 +23,7 @@
                             <th>@Html.DisplayNameFor(model => model.Longitude)</th>
                             <th>@Html.DisplayNameFor(model => model.Latitude)</th>
                             <th>@Html.DisplayNameFor(model => model.Association.Association_name)</th>
-                            <th>Actions</th>
+                            <th class="sticky-col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,7 +36,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.Longitude)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Association.Association_name)</td>
-                                <td>
+                                <td class="sticky-col">
                                     <button type="button" class="btn btn-info" onclick="showModal('@Url.Action("Edit", new { id = item.Miner_id })')">Edit</button>
                                     <button type="button" class="btn btn-danger" onclick="showModal('@Url.Action("Delete", new { id = item.Miner_id })')">Delete</button>
                                 </td>
@@ -88,3 +88,18 @@
             });
     });
 </script>
+
+<style>
+    .sticky-col {
+        position: -webkit-sticky; /* for Safari */
+        position: sticky;
+        right: -2px;
+        background-color: #fff;
+        z-index: 1; /* Ensure it is above other rows */
+    }
+
+    /* Ensuring the action column stays on top of other cells when scrolled */
+    tbody .sticky-col {
+        z-index: 2;
+    }
+</style>
