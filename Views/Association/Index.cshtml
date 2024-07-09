@@ -4,30 +4,78 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+
+<h2>Associations</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button type="button" class="btn btn-primary" onclick="showModal('@Url.Action("Create")')">Create New</button>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Association_name)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Association_name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Association_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Association_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Association_id })
-        </td>
-    </tr>
-}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0" style="height: 550px;">
+                <table class="table table-head-fixed text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Association_name)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Association_name)</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-info" onclick="showModal('@Url.Action("Edit", new { id = item.Association_id })')">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="showModal('@Url.Action("Delete", new { id = item.Association_id })')">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
 
-</table>
+<!-- Modal Structure -->
+<div class="modal fade" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modalContent">
+            <!-- Content loaded via AJAX -->
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function showModal(url) {
+        $.get(url, function (data) {
+            $('#modalContent').html(data);
+            $('#modalDialog').modal('show');
+        });
+    }
+
+    $(document).on('submit', '#createForm, #editForm, #deleteForm', function (e) {
+        e.preventDefault();
+        var $form = $(this);
+        $.post($form.attr('action'), $form.serialize())
+            .done(function (result) {
+                if (result.success) {
+                    $('#modalDialog').modal('hide');
+                    location.reload(); // Reload the page to see the changes
+                } else {
+                    $('#modalContent').html(result); // Reload modal content with validation errors
+                }
+            })
+            .fail(function () {
+                alert('Error while processing form');
+            });
+    });
+</script>

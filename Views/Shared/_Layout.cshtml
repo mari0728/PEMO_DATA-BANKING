@@ -61,6 +61,13 @@
                                     <p>Operators</p>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="/association" class="nav-link">
+                                    <i class="nav-icon bi bi-people-fill"></i>
+                                    <p>Association</p>
+                                </a>
+                            </li>
                         }
 
                         @if (ViewBag.Profile == "Miner")
@@ -77,6 +84,12 @@
                                     <p>Operators</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="/association" class="nav-link">
+                                    <i class="nav-icon bi bi-people-fill"></i>
+                                    <p>Association</p>
+                                </a>
+                            </li>
                         }
                         @if (ViewBag.Profile == "Operator")
                         {
@@ -90,6 +103,33 @@
                                 <a href="/operators" class="nav-link active">
                                     <i class="nav-icon bi bi-truck"></i>
                                     <p>Operators</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/association" class="nav-link">
+                                    <i class="nav-icon bi bi-people-fill"></i>
+                                    <p>Association</p>
+                                </a>
+                            </li>
+                        }
+                        @if (ViewBag.Profile == "Association")
+                        {
+                            <li class="nav-item">
+                                <a href="/miners" class="nav-link">
+                                    <i class="nav-icon bi-minecart-loaded"></i>
+                                    <p>Miners</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/operators" class="nav-link">
+                                    <i class="nav-icon bi bi-truck"></i>
+                                    <p>Operators</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/association" class="nav-link active">
+                                    <i class="nav-icon bi bi-people-fill"></i>
+                                    <p>Association</p>
                                 </a>
                             </li>
                         }

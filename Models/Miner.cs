@@ -15,12 +15,15 @@ namespace PEMO_DATA_BANKING.Models
     public partial class Miner
     {
         public int Miner_id { get; set; }
-        public Nullable<int> Association_id { get; set; }
+        public int Association_id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Longitude { get; set; }
         public string Latitude { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public Nullable<System.DateTime> DateDeleted { get; set; }
+        public string Status { get; set; }
     
         public virtual Association Association { get; set; }
     }
