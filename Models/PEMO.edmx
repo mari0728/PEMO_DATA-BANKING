@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Association_id" />
           </Key>
-          <Property Name="Association_id" Type="int" Nullable="false" />
+          <Property Name="Association_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Association_name" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Barangay">
@@ -54,14 +54,15 @@
           <Key>
             <PropertyRef Name="Person_id" />
           </Key>
-          <Property Name="Person_id" Type="int" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="255" />
+          <Property Name="Person_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="MiddleName" Type="varchar" MaxLength="255" />
-          <Property Name="LastName" Type="varchar" MaxLength="255" />
-          <Property Name="isCompany" Type="tinyint" />
-          <Property Name="Company_Name" Type="varchar" MaxLength="255" />
-          <Property Name="created_time" Type="timestamp" StoreGeneratedPattern="Computed" />
-          <Property Name="Status" Type="varchar(max)" />
+          <Property Name="LastName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="isCompany" Type="bit" Nullable="false" />
+          <Property Name="Company_Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateCreated" Type="date" Nullable="false" />
+          <Property Name="DateDeleted" Type="date" />
+          <Property Name="Status" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Permit">
           <Key>
@@ -111,7 +112,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Miner__Associati__4CA06362">
+        <Association Name="FK__Miner__Associati__60A75C0F">
           <End Role="Association" Type="Self.Association" Multiplicity="1" />
           <End Role="Miner" Type="Self.Miner" Multiplicity="*" />
           <ReferentialConstraint>
@@ -183,18 +184,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Permit__Person_i__32E0915F">
-          <End Role="Operator" Type="Self.Operator" Multiplicity="0..1" />
-          <End Role="Permit" Type="Self.Permit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Operator">
-              <PropertyRef Name="Person_id" />
-            </Principal>
-            <Dependent Role="Permit">
-              <PropertyRef Name="Person_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Permit__Province__34C8D9D1">
           <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
           <End Role="Permit" Type="Self.Permit" Multiplicity="*" />
@@ -253,7 +242,7 @@
             <End Role="Municipality" EntitySet="Municipality" />
             <End Role="Barangay" EntitySet="Barangay" />
           </AssociationSet>
-          <AssociationSet Name="FK__Miner__Associati__4CA06362" Association="Self.FK__Miner__Associati__4CA06362">
+          <AssociationSet Name="FK__Miner__Associati__60A75C0F" Association="Self.FK__Miner__Associati__60A75C0F">
             <End Role="Association" EntitySet="Association" />
             <End Role="Miner" EntitySet="Miner" />
           </AssociationSet>
@@ -275,10 +264,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__Permit__Permit_t__31EC6D26" Association="Self.FK__Permit__Permit_t__31EC6D26">
             <End Role="Permit_Type" EntitySet="Permit_Type" />
-            <End Role="Permit" EntitySet="Permit" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Permit__Person_i__32E0915F" Association="Self.FK__Permit__Person_i__32E0915F">
-            <End Role="Operator" EntitySet="Operator" />
             <End Role="Permit" EntitySet="Permit" />
           </AssociationSet>
           <AssociationSet Name="FK__Permit__Province__34C8D9D1" Association="Self.FK__Permit__Province__34C8D9D1">
@@ -319,20 +304,6 @@
           <NavigationProperty Name="Province" Relationship="Self.FK__Municipal__Provi__2C3393D0" FromRole="Municipality" ToRole="Province" />
           <NavigationProperty Name="Permits" Relationship="Self.FK__Permit__Municipa__35BCFE0A" FromRole="Municipality" ToRole="Permit" />
         </EntityType>
-        <EntityType Name="Operator">
-          <Key>
-            <PropertyRef Name="Person_id" />
-          </Key>
-          <Property Name="Person_id" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="isCompany" Type="Byte" />
-          <Property Name="Company_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Permits" Relationship="Self.FK__Permit__Person_i__32E0915F" FromRole="Operator" ToRole="Permit" />
-          <Property Name="created_time" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Permit">
           <Key>
             <PropertyRef Name="Permit_id" />
@@ -347,7 +318,6 @@
           <NavigationProperty Name="Barangay" Relationship="Self.FK__Permit__Barangay__36B12243" FromRole="Permit" ToRole="Barangay" />
           <NavigationProperty Name="Category" Relationship="Self.FK__Permit__Category__33D4B598" FromRole="Permit" ToRole="Category" />
           <NavigationProperty Name="Municipality" Relationship="Self.FK__Permit__Municipa__35BCFE0A" FromRole="Permit" ToRole="Municipality" />
-          <NavigationProperty Name="Operator" Relationship="Self.FK__Permit__Person_i__32E0915F" FromRole="Permit" ToRole="Operator" />
           <NavigationProperty Name="Permit_Type" Relationship="Self.FK__Permit__Permit_t__31EC6D26" FromRole="Permit" ToRole="Permit_Type" />
           <NavigationProperty Name="Province" Relationship="Self.FK__Permit__Province__34C8D9D1" FromRole="Permit" ToRole="Province" />
         </EntityType>
@@ -438,18 +408,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Permit__Person_i__32E0915F">
-          <End Role="Operator" Type="Self.Operator" Multiplicity="0..1" />
-          <End Role="Permit" Type="Self.Permit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Operator">
-              <PropertyRef Name="Person_id" />
-            </Principal>
-            <Dependent Role="Permit">
-              <PropertyRef Name="Person_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Permit__Permit_t__31EC6D26">
           <End Role="Permit_Type" Type="Self.Permit_Type" Multiplicity="0..1" />
           <End Role="Permit" Type="Self.Permit" Multiplicity="*" />
@@ -478,7 +436,6 @@
           <EntitySet Name="Barangays" EntityType="Self.Barangay" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Municipalities" EntityType="Self.Municipality" />
-          <EntitySet Name="Operators" EntityType="Self.Operator" />
           <EntitySet Name="Permits" EntityType="Self.Permit" />
           <EntitySet Name="Permit_Type" EntityType="Self.Permit_Type" />
           <EntitySet Name="Provinces" EntityType="Self.Province" />
@@ -501,10 +458,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__Permit__Municipa__35BCFE0A" Association="Self.FK__Permit__Municipa__35BCFE0A">
             <End Role="Municipality" EntitySet="Municipalities" />
-            <End Role="Permit" EntitySet="Permits" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Permit__Person_i__32E0915F" Association="Self.FK__Permit__Person_i__32E0915F">
-            <End Role="Operator" EntitySet="Operators" />
             <End Role="Permit" EntitySet="Permits" />
           </AssociationSet>
           <AssociationSet Name="FK__Permit__Permit_t__31EC6D26" Association="Self.FK__Permit__Permit_t__31EC6D26">
@@ -545,12 +498,13 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="Associations" EntityType="PEMOModel.Association" />
           <EntitySet Name="Miners" EntityType="PEMOModel.Miner" />
-          <AssociationSet Name="FK__Miner__Associati__4CA06362" Association="PEMOModel.FK__Miner__Associati__4CA06362">
+          <EntitySet Name="Associations" EntityType="PEMOModel.Association" />
+          <AssociationSet Name="FK__Miner__Associati__4F7CD00D" Association="PEMOModel.FK__Miner__Associati__4F7CD00D">
             <End Role="Association" EntitySet="Associations" />
             <End Role="Miner" EntitySet="Miners" />
           </AssociationSet>
+          <EntitySet Name="Operators" EntityType="PEMOModel.Operator" />
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -563,14 +517,6 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="Association">
-          <Key>
-            <PropertyRef Name="Association_id" />
-          </Key>
-          <Property Name="Association_id" Type="Int32" Nullable="false" />
-          <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__4CA06362" FromRole="Association" ToRole="Miner" />
-        </EntityType>
         <EntityType Name="Miner">
           <Key>
             <PropertyRef Name="Miner_id" />
@@ -585,9 +531,17 @@
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateDeleted" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Association" Relationship="PEMOModel.FK__Miner__Associati__4CA06362" FromRole="Miner" ToRole="Association" />
+          <NavigationProperty Name="Association" Relationship="PEMOModel.FK__Miner__Associati__4F7CD00D" FromRole="Miner" ToRole="Association" />
         </EntityType>
-        <Association Name="FK__Miner__Associati__4CA06362">
+        <EntityType Name="Association">
+          <Key>
+            <PropertyRef Name="Association_id" />
+          </Key>
+          <Property Name="Association_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__4F7CD00D" FromRole="Association" ToRole="Miner" />
+        </EntityType>
+        <Association Name="FK__Miner__Associati__4F7CD00D">
           <End Type="PEMOModel.Association" Role="Association" Multiplicity="1" />
           <End Type="PEMOModel.Miner" Role="Miner" Multiplicity="*" />
           <ReferentialConstraint>
@@ -599,6 +553,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Operator">
+          <Key>
+            <PropertyRef Name="Person_id" />
+          </Key>
+          <Property Name="Person_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="isCompany" Type="Boolean" Nullable="false" />
+          <Property Name="Company_Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -628,20 +596,6 @@
                 <ScalarProperty Name="Municipality_id" ColumnName="Municipality_id" />
                 <ScalarProperty Name="Municipality_name" ColumnName="Municipality_name" />
                 <ScalarProperty Name="Province_id" ColumnName="Province_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Operators">
-            <EntityTypeMapping TypeName="PEMOModel.Operator">
-              <MappingFragment StoreEntitySet="Operator">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="created_time" ColumnName="created_time" />
-                <ScalarProperty Name="Person_id" ColumnName="Person_id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="isCompany" ColumnName="isCompany" />
-                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -709,14 +663,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="PEMOModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="PEMOModel.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="Associations">
-            <EntityTypeMapping TypeName="PEMOModel.Association">
-              <MappingFragment StoreEntitySet="Association">
-                <ScalarProperty Name="Association_name" ColumnName="Association_name" />
-                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Miners">
             <EntityTypeMapping TypeName="PEMOModel.Miner">
               <MappingFragment StoreEntitySet="Miner">
@@ -730,6 +676,29 @@
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Association_id" ColumnName="Association_id" />
                 <ScalarProperty Name="Miner_id" ColumnName="Miner_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Associations">
+            <EntityTypeMapping TypeName="PEMOModel.Association">
+              <MappingFragment StoreEntitySet="Association">
+                <ScalarProperty Name="Association_name" ColumnName="Association_name" />
+                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Operators">
+            <EntityTypeMapping TypeName="PEMOModel.Operator">
+              <MappingFragment StoreEntitySet="Operator">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+                <ScalarProperty Name="isCompany" ColumnName="isCompany" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Person_id" ColumnName="Person_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -14,22 +14,14 @@ namespace PEMO_DATA_BANKING.Models
     
     public partial class Operator
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Operator()
-        {
-            this.Permits = new HashSet<Permit>();
-        }
-    
         public int Person_id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public Nullable<byte> isCompany { get; set; }
+        public bool isCompany { get; set; }
         public string Company_Name { get; set; }
-        public byte[] created_time { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public Nullable<System.DateTime> DateDeleted { get; set; }
         public string Status { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Permit> Permits { get; set; }
     }
 }

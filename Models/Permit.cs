@@ -25,7 +25,6 @@ namespace PEMO_DATA_BANKING.Models
         public virtual Barangay Barangay { get; set; }
         public virtual Category Category { get; set; }
         public virtual Municipality Municipality { get; set; }
-        public virtual Operator Operator { get; set; }
         public virtual Permit_Type Permit_Type { get; set; }
         public virtual Province Province { get; set; }
     }
