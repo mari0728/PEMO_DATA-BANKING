@@ -83,15 +83,17 @@ namespace PEMO_DATA_BANKING.Controllers
         {
             if (ModelState.IsValid)
             {
-                miner.DateCreated = miner.DateCreated; // Set current date/time
+                miner.DateCreated = miner.DateCreated; // Preserve original DateCreated
                 miner.Status = "Created"; // Set status to "Created"
                 db.Entry(miner).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["EditSuccess"] = true;
+                return RedirectToAction("Index", new { id = miner.Miner_id });
             }
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
             return PartialView("Edit", miner);
         }
+
 
         public ActionResult Delete(int? id)
         {
