@@ -41,7 +41,7 @@ namespace PEMO_DATA_BANKING.Controllers
 
             if (existingMiner != null)
             {
-                // Use TempData to store the error message
+                // Set error message
                 TempData["ErrorMessage"] = "Data already exists.";
                 return RedirectToAction("Index");
             }
