@@ -17,9 +17,12 @@ namespace PEMO_DATA_BANKING.Controllers
         // GET: Miners
         public ActionResult Index()
         {
-            var miners = db.Miners.Include(m => m.Association);
+            var miners = db.Miners
+                           .Include(m => m.Association)
+                           .Where(m => m.Status == "Created")
+                           .ToList();
             ViewBag.Profile = "Miner";
-            return View(miners.ToList());
+            return View(miners);
         }
 
 
@@ -31,10 +34,22 @@ namespace PEMO_DATA_BANKING.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Association_id,FirstName,MiddleName,LastName,Longitude,Latitude")] Miner miner)
+        public ActionResult Create([Bind(Include = "Association_id,FirstName,MiddleName,LastName,Longitude,Latitude,DateCreated,DateDeleted,Status")] Miner miner)
         {
+            // Check for existing data
+            var existingMiner = db.Miners.FirstOrDefault(m => m.FirstName == miner.FirstName && m.MiddleName == miner.MiddleName && m.LastName == miner.LastName);
+
+            if (existingMiner != null)
+            {
+                // Set error message
+                TempData["ErrorMessage"] = "Data already exists.";
+                return RedirectToAction("Index");
+            }
+
             if (ModelState.IsValid)
             {
+                miner.DateCreated = DateTime.Now; // Set current date/time
+                miner.Status = "Created"; // Set status to "Created"
                 db.Miners.Add(miner);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -43,6 +58,9 @@ namespace PEMO_DATA_BANKING.Controllers
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
             return PartialView("Create", miner);
         }
+
+
+
 
         public ActionResult Edit(int? id)
         {
@@ -65,13 +83,17 @@ namespace PEMO_DATA_BANKING.Controllers
         {
             if (ModelState.IsValid)
             {
+                miner.DateCreated = miner.DateCreated; // Preserve original DateCreated
+                miner.Status = "Created"; // Set status to "Created"
                 db.Entry(miner).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["EditSuccess"] = true;
+                return RedirectToAction("Index", new { id = miner.Miner_id });
             }
             ViewBag.Association_id = new SelectList(db.Associations, "Association_id", "Association_name", miner.Association_id);
             return PartialView("Edit", miner);
         }
+
 
         public ActionResult Delete(int? id)
         {
@@ -92,9 +114,18 @@ namespace PEMO_DATA_BANKING.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Miner miner = db.Miners.Find(id);
-            db.Miners.Remove(miner);
+            if (miner == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Update status to indicate deleted
+            miner.DateDeleted = DateTime.Now;
+            miner.Status = "Deleted";
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
     }
 }

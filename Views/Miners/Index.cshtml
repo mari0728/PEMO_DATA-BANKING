@@ -62,6 +62,35 @@
     </div>
 </div>
 
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .sticky-col {
+        position: -webkit-sticky; /* for Safari */
+        position: sticky;
+        right: 0;
+        background-color: #fff;
+        z-index: 1; /* Ensure it is above other rows */
+    }
+
+    /* Ensuring the action column stays on top of other cells when scrolled */
+    tbody .sticky-col {
+        z-index: 2;
+    }
+</style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function showModal(url) {
@@ -103,3 +132,68 @@
         z-index: 2;
     }
 </style>
+
+<!-- Add this modal HTML at the bottom of your Index.cshtml view -->
+<!-- Bootstrap Modal for Error Message -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data already exists.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage) {
+            $('#errorModal').modal('show');
+        }
+    });
+    </script>
+}
+
+
+@if (TempData["EditSuccess"] != null && (bool)TempData["EditSuccess"])
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#successModal').modal('show');
+        });
+    </script>
+}
+
+
+
+<!-- Include the success modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Edit Save successfully
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
