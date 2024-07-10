@@ -58,7 +58,7 @@
           <Property Name="FirstName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="MiddleName" Type="varchar" MaxLength="255" />
           <Property Name="LastName" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="isCompany" Type="bit" Nullable="false" />
+          <Property Name="isCompany" Type="varchar" MaxLength="255" />
           <Property Name="Company_Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="DateCreated" Type="date" Nullable="false" />
           <Property Name="DateDeleted" Type="date" />
@@ -421,7 +421,7 @@
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="isCompany" Type="Boolean" Nullable="false" />
+          <Property Name="isCompany" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Company_Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateDeleted" Type="DateTime" Precision="0" />
