@@ -18,7 +18,8 @@ namespace PEMO_DATA_BANKING.Controllers
         public ActionResult Index()
         {
             ViewBag.Profile = "Operator";
-            return View(db.Operators.ToList());
+            var activeOperators = db.Operators.Where(o => o.Status == "Active").ToList();
+            return View(activeOperators);
         }
 
         // GET: Operators/Details/5
@@ -36,28 +37,13 @@ namespace PEMO_DATA_BANKING.Controllers
             return View(@operator);
         }
 
+
         // GET: Operators/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Operators/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Person_id,FirstName,MiddleName,LastName,isCompany,Company_Name")] Operator @operator)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Operators.Add(@operator);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(@operator);
-        }
 
         // GET: Operators/Edit/5
         public ActionResult Edit(int? id)
@@ -74,15 +60,14 @@ namespace PEMO_DATA_BANKING.Controllers
             return View(@operator);
         }
 
-        // POST: Operators/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Person_id,FirstName,MiddleName,LastName,isCompany,Company_Name")] Operator @operator)
         {
             if (ModelState.IsValid)
             {
+                @operator.isCompany = @operator.isCompany == "Yes" ? "Yes" : "No"; // Convert "Yes"/"No" back to bool if needed
+
                 db.Entry(@operator).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -111,8 +96,42 @@ namespace PEMO_DATA_BANKING.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Operator @operator = db.Operators.Find(id);
-            db.Operators.Remove(@operator);
+            if (@operator == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Update status to indicate deleted
+            @operator.DateDeleted = DateTime.Now;
+            @operator.Status = "Deleted";
+
             db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InsertData(string FirstName, string MiddleName, string LastName, string isCompany, string Company_Name)
+        {
+            if (ModelState.IsValid)
+            {
+                // Creating a new Operator object with the provided data
+                Operator newOperator = new Operator
+                {
+                    FirstName = FirstName,
+                    MiddleName = MiddleName,
+                    LastName = LastName,
+                    isCompany = isCompany,
+                    Company_Name = Company_Name,
+                    DateCreated = DateTime.Now,  // Set the current date for DateCreated
+                    Status = "Active"  // Assuming a default status of "Active"
+                };
+
+                db.Operators.Add(newOperator);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
             return RedirectToAction("Index");
         }
 
