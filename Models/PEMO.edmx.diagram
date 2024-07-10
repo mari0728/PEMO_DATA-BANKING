@@ -22,7 +22,7 @@
         <EntityTypeShape EntityType="PEMOModel.Miner" Width="1.5" PointX="10" PointY="5.625" />
         <EntityTypeShape EntityType="PEMOModel.Association" Width="1.5" PointX="7.75" PointY="6.375" />
         <AssociationConnector Association="PEMOModel.FK__Miner__Associati__4F7CD00D" />
-        <EntityTypeShape EntityType="PEMOModel.Operator" Width="1.875" PointX="2.75" PointY="7.5" />
+        <EntityTypeShape EntityType="PEMOModel.Operator" Width="1.5" PointX="3.375" PointY="7.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

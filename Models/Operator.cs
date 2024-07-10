@@ -18,7 +18,7 @@ namespace PEMO_DATA_BANKING.Models
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public bool isCompany { get; set; }
+        public string isCompany { get; set; }
         public string Company_Name { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateDeleted { get; set; }
