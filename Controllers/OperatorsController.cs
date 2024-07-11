@@ -57,7 +57,7 @@ namespace PEMO_DATA_BANKING.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@operator);
+            return PartialView("Edit", @operator);
         }
 
         [HttpPost]
@@ -72,7 +72,7 @@ namespace PEMO_DATA_BANKING.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(@operator);
+            return PartialView("Edit", @operator);
         }
 
         // GET: Operators/Delete/5
@@ -87,7 +87,7 @@ namespace PEMO_DATA_BANKING.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@operator);
+            return PartialView("Delete", @operator);
         }
 
         // POST: Operators/Delete/5

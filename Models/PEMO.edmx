@@ -55,11 +55,11 @@
             <PropertyRef Name="Person_id" />
           </Key>
           <Property Name="Person_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="255" />
           <Property Name="MiddleName" Type="varchar" MaxLength="255" />
-          <Property Name="LastName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="255" />
           <Property Name="isCompany" Type="varchar" MaxLength="255" />
-          <Property Name="Company_Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Company_Name" Type="varchar" MaxLength="255" />
           <Property Name="DateCreated" Type="date" Nullable="false" />
           <Property Name="DateDeleted" Type="date" />
           <Property Name="Status" Type="varchar" MaxLength="255" Nullable="false" />
@@ -418,11 +418,11 @@
             <PropertyRef Name="Person_id" />
           </Key>
           <Property Name="Person_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="isCompany" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Company_Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Company_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateDeleted" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
