@@ -7,7 +7,7 @@
 <h2>Miners</h2>
 
 <p>
-    <button type="button" class="btn btn-primary" onclick="showModal('@Url.Action("Create")')">Create New</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create New</button>
 </p>
 
 <div class="row">
@@ -37,86 +37,17 @@
                                 <td>@Html.DisplayFor(modelItem => item.Latitude)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Association.Association_name)</td>
                                 <td class="sticky-col">
-                                    <button type="button" class="btn btn-info" onclick="showModal('@Url.Action("Edit", new { id = item.Miner_id })')">Edit</button>
-                                    <button type="button" class="btn btn-danger" onclick="showModal('@Url.Action("Delete", new { id = item.Miner_id })')">Delete</button>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal_@item.Miner_id">Edit</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_@item.Miner_id">Delete</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-
-                <!-- Modal Structure -->
-                <div class="modal fade" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content" id="modalContent">
-                            <!-- Content loaded via AJAX -->
-                        </div>
-                    </div>
-                </div>
-                <!-- /.modal -->
-
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
 </div>
-
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        padding: 8px;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    .sticky-col {
-        position: -webkit-sticky; /* for Safari */
-        position: sticky;
-        right: 0;
-        background-color: #fff;
-        z-index: 1; /* Ensure it is above other rows */
-    }
-
-    /* Ensuring the action column stays on top of other cells when scrolled */
-    tbody .sticky-col {
-        z-index: 2;
-    }
-</style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    function showModal(url) {
-        $.get(url, function (data) {
-            $('#modalContent').html(data);
-            $('#modalDialog').modal('show');
-        });
-    }
-
-    $(document).on('submit', '#createForm, #editForm, #deleteForm', function (e) {
-        e.preventDefault();
-        var $form = $(this);
-        $.post($form.attr('action'), $form.serialize())
-            .done(function (result) {
-                if (result.success) {
-                    $('#modalDialog').modal('hide');
-                    location.reload(); // Reload the page to see the changes
-                } else {
-                    $('#modalContent').html(result); // Reload modal content with validation errors
-                }
-            })
-            .fail(function () {
-                alert('Error while processing form');
-            });
-    });
-</script>
-
 <style>
     .sticky-col {
         position: -webkit-sticky; /* for Safari */
@@ -132,67 +63,132 @@
     }
 </style>
 
-<!-- Add this modal HTML at the bottom of your Index.cshtml view -->
-<!-- Bootstrap Modal for Error Message -->
-<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <h5 class="modal-title" id="createModalLabel">Create New Miner</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                Data already exists.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            <form action="@Url.Action("Create")" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="FirstName">First Name</label>
+                        <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="Enter First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="MiddleName">Middle Name</label>
+                        <input type="text" class="form-control" id="MiddleName" name="MiddleName" placeholder="Enter Middle Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="LastName">Last Name</label>
+                        <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Enter Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Longitude">Longitude</label>
+                        <input type="text" class="form-control" id="Longitude" name="Longitude" placeholder="Enter Longitude">
+                    </div>
+                    <div class="form-group">
+                        <label for="Latitude">Latitude</label>
+                        <input type="text" class="form-control" id="Latitude" name="Latitude" placeholder="Enter Latitude">
+                    </div>
+                    <div class="form-group">
+                        <label for="Association">Association</label>
+                        <select class="form-control" id="Association" name="Association">
+                            <option value="1">Association 1</option>
+                            <option value="2">Association 2</option>
+                            <option value="3">Association 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                @Html.AntiForgeryToken()
+            </form>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-    $(document).ready(function() {
-        var errorMessage = '@TempData["ErrorMessage"]';
-        if (errorMessage) {
-            $('#errorModal').modal('show');
-        }
-    });
-    </script>
-}
-
-
-@if (TempData["EditSuccess"] != null && (bool)TempData["EditSuccess"])
+@foreach (var item in Model)
 {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#successModal').modal('show');
-        });
-    </script>
-}
-
-
-
-<!-- Include the success modal -->
-<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">Success</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Edit Save successfully
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal_@item.Miner_id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel_@item.Miner_id" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel_@item.Miner_id">Edit Miner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="@Url.Action("Edit", new { id = item.Miner_id })" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="FirstName">First Name</label>
+                            <input type="text" class="form-control" id="FirstName" name="FirstName" value="@item.FirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="MiddleName">Middle Name</label>
+                            <input type="text" class="form-control" id="MiddleName" name="MiddleName" value="@item.MiddleName">
+                        </div>
+                        <div class="form-group">
+                            <label for="LastName">Last Name</label>
+                            <input type="text" class="form-control" id="LastName" name="LastName" value="@item.LastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="Longitude">Longitude</label>
+                            <input type="text" class="form-control" id="Longitude" name="Longitude" value="@item.Longitude">
+                        </div>
+                        <div class="form-group">
+                            <label for="Latitude">Latitude</label>
+                            <input type="text" class="form-control" id="Latitude" name="Latitude" value="@item.Latitude">
+                        </div>
+                        <div class="form-group">
+                            <label for="Association">Association</label>
+                            <select class="form-control" id="Association" name="Association">
+                                <option value="1" @(item.Association_id == 1 ? "selected" : "")>Association 1</option>
+                                <option value="2" @(item.Association_id == 2 ? "selected" : "")>Association 2</option>
+                                <option value="3" @(item.Association_id == 3 ? "selected" : "")>Association 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    @Html.HiddenFor(model => item.Miner_id)
+                    @Html.AntiForgeryToken()
+                </form>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal_@item.Miner_id" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel_@item.Miner_id" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel_@item.Miner_id">Delete Miner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="@Url.Action("Delete", new { id = item.Miner_id })" method="post">
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this miner: <strong>@item.FirstName @item.LastName</strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    @Html.AntiForgeryToken()
+                </form>
+            </div>
+        </div>
+    </div>
+}
