@@ -17,11 +17,10 @@
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
                         <tr>
-                            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                            <th>@Html.DisplayNameFor(model => model.MiddleName)</th>
-                            <th>@Html.DisplayNameFor(model => model.LastName)</th>
-                            <th>@Html.DisplayNameFor(model => model.isCompany)</th>
-                            <th>@Html.DisplayNameFor(model => model.Company_Name)</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Company Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -32,11 +31,10 @@
                                 <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.MiddleName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.isCompany)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Company_Name)</td>
-                                <td class="sticky-col">
-                                    <button type="button" class="btn btn-info" onclick="showModal('@Url.Action("Edit", new { id = item.Person_id })')">Edit</button>
-                                    <button type="button" class="btn btn-danger" onclick="showModal('@Url.Action("Delete", new { id = item.Person_id })')">Delete</button>
+                                <td>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal" data-id="@item.Person_id" data-firstname="@item.FirstName" data-middlename="@item.MiddleName" data-lastname="@item.LastName" data-iscompany="@item.isCompany" data-companyname="@item.Company_Name">Edit</button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Person_id">Delete</button>
                                 </td>
                             </tr>
                         }
@@ -164,6 +162,34 @@
             }
         }
 
+        function toggleEditCompanyField(isCompany) {
+            const companyNameField = document.getElementById('editCompanyNameField');
+            const firstNameField = document.getElementById('editFirstNameField');
+            const middleNameField = document.getElementById('editMiddleNameField');
+            const lastNameField = document.getElementById('editLastNameField');
+            const firstNameInput = document.getElementById('editFirstName');
+            const middleNameInput = document.getElementById('editMiddleName');
+            const lastNameInput = document.getElementById('editLastName');
+
+            if (isCompany) {
+                companyNameField.style.display = 'block';
+                firstNameField.style.display = 'none';
+                middleNameField.style.display = 'none';
+                lastNameField.style.display = 'none';
+                firstNameInput.disabled = true;
+                middleNameInput.disabled = true;
+                lastNameInput.disabled = true;
+            } else {
+                companyNameField.style.display = 'none';
+                firstNameField.style.display = 'block';
+                middleNameField.style.display = 'block';
+                lastNameField.style.display = 'block';
+                firstNameInput.disabled = false;
+                middleNameInput.disabled = false;
+                lastNameInput.disabled = false;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const isCompanyYes = document.getElementById('isCompanyYes');
             const isCompanyNo = document.getElementById('isCompanyNo');
@@ -173,6 +199,39 @@
             });
             isCompanyNo.addEventListener('change', function () {
                 toggleCompanyField(false);
+            });
+
+            // Edit modal event
+            var editModal = document.getElementById('editModal');
+            editModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+                var firstName = button.getAttribute('data-firstname');
+                var middleName = button.getAttribute('data-middlename');
+                var lastName = button.getAttribute('data-lastname');
+                var isCompany = button.getAttribute('data-iscompany') === 'True';
+                var companyName = button.getAttribute('data-companyname');
+
+                var modal = this;
+                modal.querySelector('#editPersonId').value = id;
+                modal.querySelector('#editFirstName').value = firstName;
+                modal.querySelector('#editMiddleName').value = middleName;
+                modal.querySelector('#editLastName').value = lastName;
+                modal.querySelector('#editIsCompanyYes').checked = isCompany;
+                modal.querySelector('#editIsCompanyNo').checked = !isCompany;
+                modal.querySelector('#editCompanyName').value = companyName;
+
+                toggleEditCompanyField(isCompany);
+            });
+
+            // Delete modal event
+            var deleteModal = document.getElementById('deleteModal');
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+
+                var modal = this;
+                modal.querySelector('#deletePersonId').value = id;
             });
         });
         function showModal(url) {

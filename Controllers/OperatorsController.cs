@@ -22,91 +22,10 @@ namespace PEMO_DATA_BANKING.Controllers
             return View(activeOperators);
         }
 
-        // GET: Operators/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Operator @operator = db.Operators.Find(id);
-            if (@operator == null)
-            {
-                return HttpNotFound();
-            }
-            return View(@operator);
-        }
-
-
         // GET: Operators/Create
         public ActionResult Create()
         {
             return View();
-        }
-
-
-        // GET: Operators/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Operator @operator = db.Operators.Find(id);
-            if (@operator == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView("Edit", @operator);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Person_id,FirstName,MiddleName,LastName,isCompany,Company_Name")] Operator @operator)
-        {
-            if (ModelState.IsValid)
-            {
-                @operator.isCompany = @operator.isCompany == "Yes" ? "Yes" : "No"; // Convert "Yes"/"No" back to bool if needed
-
-                db.Entry(@operator).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return PartialView("Edit", @operator);
-        }
-
-        // GET: Operators/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Operator @operator = db.Operators.Find(id);
-            if (@operator == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView("Delete", @operator);
-        }
-
-        // POST: Operators/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Operator @operator = db.Operators.Find(id);
-            if (@operator == null)
-            {
-                return HttpNotFound();
-            }
-
-            // Update status to indicate deleted
-            @operator.DateDeleted = DateTime.Now;
-            @operator.Status = "Deleted";
-
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -132,6 +51,50 @@ namespace PEMO_DATA_BANKING.Controllers
                 return RedirectToAction("Index");
             }
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditData(int Person_id, string FirstName, string MiddleName, string LastName, string isCompany, string Company_Name)
+        {
+            if (ModelState.IsValid)
+            {
+                Operator @operator = db.Operators.Find(Person_id);
+                if (@operator == null)
+                {
+                    return HttpNotFound();
+                }
+
+                @operator.FirstName = FirstName;
+                @operator.MiddleName = MiddleName;
+                @operator.LastName = LastName;
+                @operator.isCompany = isCompany;
+                @operator.Company_Name = Company_Name;
+
+                db.Entry(@operator).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteData(int Person_id)
+        {
+            Operator @operator = db.Operators.Find(Person_id);
+            if (@operator == null)
+            {
+                return HttpNotFound();
+            }
+
+            @operator.DateDeleted = DateTime.Now;
+            @operator.Status = "Deleted";
+
+            db.Entry(@operator).State = EntityState.Modified;
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

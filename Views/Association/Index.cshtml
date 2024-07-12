@@ -19,7 +19,7 @@
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
                         <tr>
-                            <th>@Html.DisplayNameFor(model => model.Association_name)</th>
+                            <th>Association Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -77,6 +77,11 @@
             .fail(function () {
                 alert('Error while processing form');
             });
+    });
+
+    $(document).on('click', '#cancelButton', function () {
+        $('#createForm, #editForm, #deleteForm')[0].reset(); // Reset the form
+        $('#modalDialog').modal('hide'); // Hide the modal
     });
 </script>
 
