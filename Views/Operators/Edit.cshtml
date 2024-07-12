@@ -10,59 +10,56 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Operator</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Person_id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.isCompany, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.isCompany, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.isCompany, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Company_Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Company_Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Company_Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header primary">
+                    <h1 class="modal-title fs-5 primary" id="editModalLabel">Edit Operator</h1>
+                </div>
+                <form action="@Url.Action("Edit")" method="post">
+                    <div class="modal-body">
+                        <label for="isCompany">Do you belong to a company?</label>
+                        <div class="form-group mb-3">
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="editIsCompanyYes" name="isCompany" value="true" onclick="toggleEditCompanyField(true)">
+                                <label class="form-check-label" for="editIsCompanyYes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="editIsCompanyNo" name="isCompany" value="false" onclick="toggleEditCompanyField(false)">
+                                <label class="form-check-label" for="editIsCompanyNo">No</label>
+                            </div>
+                        </div>
+                        <input type="hidden" id="editPersonId" name="Person_id" />
+                        <div class="form-group mb-3" id="editFirstNameField">
+                            <label for="editFirstName">First Name</label>
+                            <input type="text" class="form-control" id="editFirstName" name="FirstName" placeholder="Enter First Name" required>
+                        </div>
+                        <div class="form-group mb-3" id="editMiddleNameField">
+                            <label for="editMiddleName">Middle Name</label>
+                            <input type="text" class="form-control" id="editMiddleName" name="MiddleName" placeholder="Enter Middle Name">
+                        </div>
+                        <div class="form-group mb-3" id="editLastNameField">
+                            <label for="editLastName">Last Name</label>
+                            <input type="text" class="form-control" id="editLastName" name="LastName" placeholder="Enter Last Name" required>
+                        </div>
+                        <div class="form-group mb-3" id="editCompanyNameField" style="display: none;">
+                            <label for="editCompanyName">Company Name</label>
+                            <input type="text" class="form-control" id="editCompanyName" name="Company_Name" placeholder="Enter Company Name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                    @Html.AntiForgeryToken()
+                </form>
             </div>
         </div>
     </div>
+
 }
 
 <div>
@@ -71,4 +68,49 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function toggleCompanyField(isCompany) {
+            const companyNameField = document.getElementById('companyNameField');
+            const firstNameField = document.getElementById('firstNameField');
+            const middleNameField = document.getElementById('middleNameField');
+            const lastNameField = document.getElementById('lastNameField');
+            const firstNameInput = document.getElementById('FirstName');
+            const middleNameInput = document.getElementById('MiddleName');
+            const lastNameInput = document.getElementById('LastName');
+
+            if (isCompany) {
+                companyNameField.style.display = 'block';
+                firstNameField.style.display = 'none';
+                middleNameField.style.display = 'none';
+                lastNameField.style.display = 'none';
+                firstNameInput.disabled = true;
+                middleNameInput.disabled = true;
+                lastNameInput.disabled = true;
+            } else {
+                companyNameField.style.display = 'none';
+                firstNameField.style.display = 'block';
+                middleNameField.style.display = 'block';
+                lastNameField.style.display = 'block';
+                firstNameInput.disabled = false;
+                middleNameInput.disabled = false;
+                lastNameInput.disabled = false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const isCompanyYes = document.getElementById('isCompanyYes');
+            const isCompanyNo = document.getElementById('isCompanyNo');
+
+            isCompanyYes.addEventListener('change', function () {
+                toggleCompanyField(true);
+            });
+            isCompanyNo.addEventListener('change', function () {
+                toggleCompanyField(false);
+            });
+
+        });
+             });
+
+    </script>
 }

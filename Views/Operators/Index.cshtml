@@ -17,11 +17,10 @@
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
                         <tr>
-                            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                            <th>@Html.DisplayNameFor(model => model.MiddleName)</th>
-                            <th>@Html.DisplayNameFor(model => model.LastName)</th>
-                            <th>@Html.DisplayNameFor(model => model.isCompany)</th>
-                            <th>@Html.DisplayNameFor(model => model.Company_Name)</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Company Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -32,12 +31,10 @@
                                 <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.MiddleName)</td>
                                 <td>@Html.DisplayFor(modelItem => item.LastName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.isCompany)</td>                              
                                 <td>@Html.DisplayFor(modelItem => item.Company_Name)</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Person_id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Person_id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Person_id })
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal" data-id="@item.Person_id" data-firstname="@item.FirstName" data-middlename="@item.MiddleName" data-lastname="@item.LastName" data-iscompany="@item.isCompany" data-companyname="@item.Company_Name">Edit</button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Person_id">Delete</button>
                                 </td>
                             </tr>
                         }
@@ -54,7 +51,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="insertdataLabel">Insert Data</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="@Url.Action("InsertData")" method="post">
                 <div class="modal-body">
@@ -76,7 +72,7 @@
                             <label class="form-check-label" for="isCompanyYes">Yes</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" id="isCompanyNo" name="isCompany" value="false" onclick="toggleCompanyField(false)">
+                            <input type="radio" class="form-check-input" id="isCompanyNo" name="isCompany" value="false" onclick="toggleCompanyField(false)" checked>
                             <label class="form-check-label" for="isCompanyNo">No</label>
                         </div>
                     </div>
@@ -84,11 +80,79 @@
                         <label for="Company_Name">Company Name</label>
                         <input type="text" class="form-control" id="Company_Name" name="Company_Name" placeholder="Enter Company Name">
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
+    </div>
+</div>
 
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editModalLabel">Edit Operator</h1>
+            </div>
+            <form action="@Url.Action("EditData")" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editPersonId" name="Person_id" />
+                    <div class="form-group mb-3" id="editFirstNameField">
+                        <label for="editFirstName">First Name</label>
+                        <input type="text" class="form-control" id="editFirstName" name="FirstName" placeholder="Enter First Name" required>
+                    </div>
+                    <div class="form-group mb-3" id="editMiddleNameField">
+                        <label for="editMiddleName">Middle Name</label>
+                        <input type="text" class="form-control" id="editMiddleName" name="MiddleName" placeholder="Enter Middle Name">
+                    </div>
+                    <div class="form-group mb-3" id="editLastNameField">
+                        <label for="editLastName">Last Name</label>
+                        <input type="text" class="form-control" id="editLastName" name="LastName" placeholder="Enter Last Name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="editIsCompanyYes" name="isCompany" value="true" onclick="toggleEditCompanyField(true)">
+                            <label class="form-check-label" for="editIsCompanyYes">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="editIsCompanyNo" name="isCompany" value="false" onclick="toggleEditCompanyField(false)">
+                            <label class="form-check-label" for="editIsCompanyNo">No</label>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3" id="editCompanyNameField" style="display: none;">
+                        <label for="editCompanyName">Company Name</label>
+                        <input type="text" class="form-control" id="editCompanyName" name="Company_Name" placeholder="Enter Company Name">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Operator</h1>
+            </div>
+            <form action="@Url.Action("DeleteData")" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="deletePersonId" name="Person_id" />
+                    <p>Are you sure you want to delete this operator?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </div>
                 @Html.AntiForgeryToken()
             </form>
@@ -127,6 +191,34 @@
             }
         }
 
+        function toggleEditCompanyField(isCompany) {
+            const companyNameField = document.getElementById('editCompanyNameField');
+            const firstNameField = document.getElementById('editFirstNameField');
+            const middleNameField = document.getElementById('editMiddleNameField');
+            const lastNameField = document.getElementById('editLastNameField');
+            const firstNameInput = document.getElementById('editFirstName');
+            const middleNameInput = document.getElementById('editMiddleName');
+            const lastNameInput = document.getElementById('editLastName');
+
+            if (isCompany) {
+                companyNameField.style.display = 'block';
+                firstNameField.style.display = 'none';
+                middleNameField.style.display = 'none';
+                lastNameField.style.display = 'none';
+                firstNameInput.disabled = true;
+                middleNameInput.disabled = true;
+                lastNameInput.disabled = true;
+            } else {
+                companyNameField.style.display = 'none';
+                firstNameField.style.display = 'block';
+                middleNameField.style.display = 'block';
+                lastNameField.style.display = 'block';
+                firstNameInput.disabled = false;
+                middleNameInput.disabled = false;
+                lastNameInput.disabled = false;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const isCompanyYes = document.getElementById('isCompanyYes');
             const isCompanyNo = document.getElementById('isCompanyNo');
@@ -136,6 +228,39 @@
             });
             isCompanyNo.addEventListener('change', function () {
                 toggleCompanyField(false);
+            });
+
+            // Edit modal event
+            var editModal = document.getElementById('editModal');
+            editModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+                var firstName = button.getAttribute('data-firstname');
+                var middleName = button.getAttribute('data-middlename');
+                var lastName = button.getAttribute('data-lastname');
+                var isCompany = button.getAttribute('data-iscompany') === 'True';
+                var companyName = button.getAttribute('data-companyname');
+
+                var modal = this;
+                modal.querySelector('#editPersonId').value = id;
+                modal.querySelector('#editFirstName').value = firstName;
+                modal.querySelector('#editMiddleName').value = middleName;
+                modal.querySelector('#editLastName').value = lastName;
+                modal.querySelector('#editIsCompanyYes').checked = isCompany;
+                modal.querySelector('#editIsCompanyNo').checked = !isCompany;
+                modal.querySelector('#editCompanyName').value = companyName;
+
+                toggleEditCompanyField(isCompany);
+            });
+
+            // Delete modal event
+            var deleteModal = document.getElementById('deleteModal');
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+
+                var modal = this;
+                modal.querySelector('#deletePersonId').value = id;
             });
         });
     </script>

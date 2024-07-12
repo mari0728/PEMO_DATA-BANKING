@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\joshu\OneDrive\Desktop\ojt\7 4 2024\PEMO_DATA-BANKING\Models\PEMO.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Gebruiker\Documents\gem\PEMO_DATA-BANKING\Models\PEMO.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
