@@ -17,8 +17,11 @@ namespace PEMO_DATA_BANKING.Controllers
         // GET: Association
         public ActionResult Index()
         {
+            var associations = db.Associations
+                           .Where(m => m.Status == "Created")
+                           .ToList();
             ViewBag.Profile = "Association";
-            return View(db.Associations.ToList());
+            return View(associations);
         }
 
         // GET: Association/Create
@@ -34,8 +37,19 @@ namespace PEMO_DATA_BANKING.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Association_id,Association_name")] Association association)
         {
+            var existingAssociation = db.Associations.FirstOrDefault(m => m.Association_name == association.Association_name);
+
+            if (existingAssociation != null)
+            {
+                // Set error message
+                TempData["ErrorMessage"] = "Data already exists.";
+                return RedirectToAction("Index");
+            }
+
             if (ModelState.IsValid)
             {
+                association.DateCreated = DateTime.Now; // Set current date/time
+                association.Status = "Created"; // Set status to "Created"
                 db.Associations.Add(association);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -68,11 +82,14 @@ namespace PEMO_DATA_BANKING.Controllers
         {
             if (ModelState.IsValid)
             {
+                association.DateCreated = association.DateCreated; // Preserve original DateCreated
+                association.Status = "Created"; // Set status to "Created"
                 db.Entry(association).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["EditSuccess"] = true;
+                return RedirectToAction("Index", new { id = association.Association_id });
             }
-            return PartialView(association);
+            return PartialView("Edit", association);
         }
 
         // GET: Association/Delete/5
@@ -95,8 +112,15 @@ namespace PEMO_DATA_BANKING.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Association association = db.Associations.Find(id);
-            db.Associations.Remove(association);
+            Association association1 = db.Associations.Find(id);
+            if (association1 == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Update status to indicate deleted
+            association1.DateDeleted = DateTime.Now;
+            association1.Status = "Deleted";
             db.SaveChanges();
             return RedirectToAction("Index");
         }

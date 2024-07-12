@@ -22,6 +22,9 @@ namespace PEMO_DATA_BANKING.Models
     
         public int Association_id { get; set; }
         public string Association_name { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public Nullable<System.DateTime> DateDeleted { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Miner> Miners { get; set; }

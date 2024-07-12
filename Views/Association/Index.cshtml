@@ -79,3 +79,68 @@
             });
     });
 </script>
+
+<!-- Add this modal HTML at the bottom of your Index.cshtml view -->
+<!-- Bootstrap Modal for Error Message -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Data already exists.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage) {
+            $('#errorModal').modal('show');
+        }
+    });
+    </script>
+}
+
+
+@if (TempData["EditSuccess"] != null && (bool)TempData["EditSuccess"])
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#successModal').modal('show');
+        });
+    </script>
+}
+
+
+
+<!-- Include the success modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Edit Save successfully
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

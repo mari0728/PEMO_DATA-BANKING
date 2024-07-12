@@ -11,6 +11,9 @@
           </Key>
           <Property Name="Association_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Association_name" Type="varchar" MaxLength="255" />
+          <Property Name="DateCreated" Type="date" Nullable="false" />
+          <Property Name="DateDeleted" Type="date" />
+          <Property Name="Status" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Barangay">
           <Key>
@@ -366,6 +369,9 @@
           </Key>
           <Property Name="Association_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__60A75C0F" FromRole="Association" ToRole="Miner" />
         </EntityType>
         <EntityType Name="Barangay">
@@ -600,6 +606,9 @@
           <EntitySetMapping Name="Associations">
             <EntityTypeMapping TypeName="PEMOModel.Association">
               <MappingFragment StoreEntitySet="Association">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Association_name" ColumnName="Association_name" />
                 <ScalarProperty Name="Association_id" ColumnName="Association_id" />
               </MappingFragment>
