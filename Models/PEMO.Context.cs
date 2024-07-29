@@ -27,16 +27,16 @@ namespace PEMO_DATA_BANKING.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Association> Associations { get; set; }
         public virtual DbSet<Barangay> Barangays { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Miner> Miners { get; set; }
         public virtual DbSet<Municipality> Municipalities { get; set; }
         public virtual DbSet<Permit> Permits { get; set; }
         public virtual DbSet<Permit_Type> Permit_Type { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Operator> Operators { get; set; }
+        public virtual DbSet<Miner> Miners { get; set; }
+        public virtual DbSet<Association> Associations { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<PEMO_DATA_BANKING.Models.Association>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Associations";
 }
 
 <h2>Associations</h2>
 
 <p>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create New</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insertdata">Create New</button>
 </p>
 
 <div class="row">
@@ -27,161 +27,118 @@
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.Association_name)</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editModal_@item.Association_id">Edit</button>
-                                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal_@item.Association_id">Delete</button>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editModal" data-id="@item.Association_id" data-name="@item.Association_name">Edit</button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.Association_id">Delete</button>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
+                
 
-<!-- Create Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<!-- Insert Modal -->
+<div class="modal fade" id="insertdata" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="insertdataLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Create New Association</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h3 class="modal-title fs-5" id="insertdataLabel">Association</h3>
             </div>
             <form action="@Url.Action("Create")" method="post">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="AssociationName">Association Name</label>
-                        <input type="text" class="form-control" id="AssociationName" name="AssociationName" placeholder="Enter Association Name" required>
+                    <div class="form-group mb-3">
+                        <label for="Association_name">Association Name</label>
+                        <input type="text" class="form-control" id="Association_name" name="Association_name" placeholder="Enter Association Name" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
                 @Html.AntiForgeryToken()
             </form>
         </div>
     </div>
 </div>
-<!-- /.modal -->
 
+<<<<<<< Updated upstream
 
 
 <!-- Add this modal HTML at the bottom of your Index.cshtml view -->
 <!-- Bootstrap Modal for Error Message -->
 <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
+=======
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+>>>>>>> Stashed changes
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="errorModalLabel">Error</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h1 class="modal-title fs-5" id="editModalLabel">Edit Association</h1>
             </div>
-            <div class="modal-body">
-                Data already exists.
+            <form action="@Url.Action("Edit")" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editAssociationId" name="Association_id" />
+                    <div class="form-group mb-3">
+                        <label for="editAssociationName">Association Name</label>
+                        <input type="text" class="form-control" id="editAssociationName" name="Association_name" placeholder="Enter Association Name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Association</h1>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+            <form action="@Url.Action("Delete")" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="deleteAssociationId" name="id" />
+                    <p>Are you sure you want to delete this association?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                @Html.AntiForgeryToken()
+            </form>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-    $(document).ready(function() {
-        var errorMessage = '@TempData["ErrorMessage"]';
-        if (errorMessage) {
-            $('#errorModal').modal('show');
-        }
-    });
-    </script>
-}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Edit modal event
+        var editModal = document.getElementById('editModal');
+        editModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var name = button.getAttribute('data-name');
 
-@foreach (var item in Model)
-{
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editModal_@item.Association_id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel_@item.Association_id" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel_@item.Association_id">Edit Association</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="@Url.Action("Edit", new { id = item.Association_id })" method="post">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="AssociationNameEdit">Association Name</label>
-                            <input type="text" class="form-control" id="AssociationNameEdit" name="AssociationName" value="@item.Association_name" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                    @Html.AntiForgeryToken()
-                </form>
-            </div>
-        </div>
-    </div>
+            var modal = this;
+            modal.querySelector('#editAssociationId').value = id;
+            modal.querySelector('#editAssociationName').value = name;
+        });
 
-@if (TempData["EditSuccess"] != null && (bool)TempData["EditSuccess"])
-{
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#successModal').modal('show');
+        // Delete modal event
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+
+            var modal = this;
+            modal.querySelector('#deleteAssociationId').value = id;
         });
     </script>
-}
-
-
-
-<!-- Include the success modal -->
-<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">Success</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Edit Save successfully
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal_@item.Association_id" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel_@item.Association_id" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel_@item.Association_id">Delete Association</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="@Url.Action("Delete", new { id = item.Association_id })" method="post">
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete this association: <strong>@item.Association_name</strong>?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                    @Html.AntiForgeryToken()
-                </form>
-            </div>
-        </div>
-    </div>
 }

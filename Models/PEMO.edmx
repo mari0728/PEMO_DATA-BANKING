@@ -309,19 +309,13 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="Associations" EntityType="PEMOModel.Association" />
           <EntitySet Name="Barangays" EntityType="PEMOModel.Barangay" />
           <EntitySet Name="Categories" EntityType="PEMOModel.Category" />
-          <EntitySet Name="Miners" EntityType="PEMOModel.Miner" />
           <EntitySet Name="Municipalities" EntityType="PEMOModel.Municipality" />
           <EntitySet Name="Permits" EntityType="PEMOModel.Permit" />
           <EntitySet Name="Permit_Type" EntityType="PEMOModel.Permit_Type" />
           <EntitySet Name="Provinces" EntityType="PEMOModel.Province" />
           <EntitySet Name="sysdiagrams" EntityType="PEMOModel.sysdiagram" />
-          <AssociationSet Name="FK__Miner__Associati__60A75C0F" Association="PEMOModel.FK__Miner__Associati__60A75C0F">
-            <End Role="Association" EntitySet="Associations" />
-            <End Role="Miner" EntitySet="Miners" />
-          </AssociationSet>
           <AssociationSet Name="FK__Barangay__Munici__2F10007B" Association="PEMOModel.FK__Barangay__Munici__2F10007B">
             <End Role="Municipality" EntitySet="Municipalities" />
             <End Role="Barangay" EntitySet="Barangays" />
@@ -351,6 +345,12 @@
             <End Role="Permit" EntitySet="Permits" />
           </AssociationSet>
           <EntitySet Name="Operators" EntityType="PEMOModel.Operator" />
+          <EntitySet Name="Miners" EntityType="PEMOModel.Miner" />
+          <EntitySet Name="Associations" EntityType="PEMOModel.Association" />
+          <AssociationSet Name="FK__Miner__Associati__60A75C0F" Association="PEMOModel.FK__Miner__Associati__60A75C0F">
+            <End Role="Association" EntitySet="Associations" />
+            <End Role="Miner" EntitySet="Miners" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -363,17 +363,6 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="Association">
-          <Key>
-            <PropertyRef Name="Association_id" />
-          </Key>
-          <Property Name="Association_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DateDeleted" Type="DateTime" Precision="0" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__60A75C0F" FromRole="Association" ToRole="Miner" />
-        </EntityType>
         <EntityType Name="Barangay">
           <Key>
             <PropertyRef Name="Barangay_id" />
@@ -391,22 +380,6 @@
           <Property Name="Category_id" Type="Int32" Nullable="false" />
           <Property Name="Category_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Permits" Relationship="PEMOModel.FK__Permit__Category__33D4B598" FromRole="Category" ToRole="Permit" />
-        </EntityType>
-        <EntityType Name="Miner">
-          <Key>
-            <PropertyRef Name="Miner_id" />
-          </Key>
-          <Property Name="Miner_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Association_id" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Longitude" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Latitude" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DateDeleted" Type="DateTime" Precision="0" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Association" Relationship="PEMOModel.FK__Miner__Associati__60A75C0F" FromRole="Miner" ToRole="Association" />
         </EntityType>
         <EntityType Name="Municipality">
           <Key>
@@ -463,18 +436,6 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <Association Name="FK__Miner__Associati__60A75C0F">
-          <End Type="PEMOModel.Association" Role="Association" Multiplicity="1" />
-          <End Type="PEMOModel.Miner" Role="Miner" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Association">
-              <PropertyRef Name="Association_id" />
-            </Principal>
-            <Dependent Role="Miner">
-              <PropertyRef Name="Association_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Barangay__Munici__2F10007B">
           <End Type="PEMOModel.Municipality" Role="Municipality" Multiplicity="0..1" />
           <End Type="PEMOModel.Barangay" Role="Barangay" Multiplicity="*" />
@@ -573,6 +534,45 @@
           <Property Name="DateDeleted" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Miner">
+          <Key>
+            <PropertyRef Name="Miner_id" />
+          </Key>
+          <Property Name="Miner_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Association_id" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Longitude" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Latitude" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Association" Relationship="PEMOModel.FK__Miner__Associati__60A75C0F" FromRole="Miner" ToRole="Association" />
+        </EntityType>
+        <EntityType Name="Association">
+          <Key>
+            <PropertyRef Name="Association_id" />
+          </Key>
+          <Property Name="Association_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Association_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateDeleted" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Miners" Relationship="PEMOModel.FK__Miner__Associati__60A75C0F" FromRole="Association" ToRole="Miner" />
+        </EntityType>
+        <Association Name="FK__Miner__Associati__60A75C0F">
+          <End Type="PEMOModel.Association" Role="Association" Multiplicity="1" />
+          <End Type="PEMOModel.Miner" Role="Miner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Association">
+              <PropertyRef Name="Association_id" />
+            </Principal>
+            <Dependent Role="Miner">
+              <PropertyRef Name="Association_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -603,17 +603,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="PEMOModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="PEMOModel.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="Associations">
-            <EntityTypeMapping TypeName="PEMOModel.Association">
-              <MappingFragment StoreEntitySet="Association">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="Association_name" ColumnName="Association_name" />
-                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Barangays">
             <EntityTypeMapping TypeName="PEMOModel.Barangay">
               <MappingFragment StoreEntitySet="Barangay">
@@ -628,22 +617,6 @@
               <MappingFragment StoreEntitySet="Category">
                 <ScalarProperty Name="Category_name" ColumnName="Category_name" />
                 <ScalarProperty Name="Category_id" ColumnName="Category_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Miners">
-            <EntityTypeMapping TypeName="PEMOModel.Miner">
-              <MappingFragment StoreEntitySet="Miner">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
-                <ScalarProperty Name="Miner_id" ColumnName="Miner_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -708,6 +681,33 @@
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Person_id" ColumnName="Person_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Miners">
+            <EntityTypeMapping TypeName="PEMOModel.Miner">
+              <MappingFragment StoreEntitySet="Miner">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
+                <ScalarProperty Name="Miner_id" ColumnName="Miner_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Associations">
+            <EntityTypeMapping TypeName="PEMOModel.Association">
+              <MappingFragment StoreEntitySet="Association">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateDeleted" ColumnName="DateDeleted" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Association_name" ColumnName="Association_name" />
+                <ScalarProperty Name="Association_id" ColumnName="Association_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

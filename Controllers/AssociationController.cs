@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -18,8 +17,8 @@ namespace PEMO_DATA_BANKING.Controllers
         public ActionResult Index()
         {
             var associations = db.Associations
-                           .Where(m => m.Status == "Created")
-                           .ToList();
+                                 .Where(m => m.Status == "Active")
+                                 .ToList();
             ViewBag.Profile = "Association";
             return View(associations);
         }
@@ -31,31 +30,29 @@ namespace PEMO_DATA_BANKING.Controllers
         }
 
         // POST: Association/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Association_id,Association_name")] Association association)
+        public ActionResult Create([Bind(Include = "Association_name")] Association association)
         {
-            var existingAssociation = db.Associations.FirstOrDefault(m => m.Association_name == association.Association_name);
+            var existingAssociation = db.Associations
+                                        .FirstOrDefault(m => m.Association_name == association.Association_name);
 
             if (existingAssociation != null)
             {
-                // Set error message
                 TempData["ErrorMessage"] = "Data already exists.";
                 return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
             {
-                association.DateCreated = DateTime.Now; // Set current date/time
-                association.Status = "Created"; // Set status to "Created"
+                association.DateCreated = DateTime.Now;
+                association.Status = "Active";
                 db.Associations.Add(association);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return PartialView("create", association);
+            return PartialView("Create", association);
         }
 
         // GET: Association/Edit/5
@@ -70,12 +67,10 @@ namespace PEMO_DATA_BANKING.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView(association);
+            return PartialView("Edit", association);
         }
 
         // POST: Association/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Association_id,Association_name")] Association association)
@@ -83,11 +78,11 @@ namespace PEMO_DATA_BANKING.Controllers
             if (ModelState.IsValid)
             {
                 association.DateCreated = association.DateCreated; // Preserve original DateCreated
-                association.Status = "Created"; // Set status to "Created"
+                association.Status = "Active";
                 db.Entry(association).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["EditSuccess"] = true;
-                return RedirectToAction("Index", new { id = association.Association_id });
+                return RedirectToAction("Index");
             }
             return PartialView("Edit", association);
         }
@@ -104,7 +99,7 @@ namespace PEMO_DATA_BANKING.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView(association);
+            return PartialView("Delete", association);
         }
 
         // POST: Association/Delete/5
@@ -112,18 +107,19 @@ namespace PEMO_DATA_BANKING.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Association association1 = db.Associations.Find(id);
-            if (association1 == null)
+            Association association = db.Associations.Find(id);
+            if (association == null)
             {
                 return HttpNotFound();
             }
 
             // Update status to indicate deleted
-            association1.DateDeleted = DateTime.Now;
-            association1.Status = "Deleted";
+            association.DateDeleted = DateTime.Now;
+            association.Status = "Deleted";
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {
